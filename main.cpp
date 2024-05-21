@@ -3,11 +3,12 @@
 
 
 int main(){
-    std::cout<<"A";
-    problem P(0.0,1.0,0.0,1.0);
+    problem P(0.0,1.0,0.0,1.0,32);
 
-    P.SeqSolver(10);
-    P.printSol();
+    P.SeqSolver(1e-7);
+    //P.printSol();
+
+    std::cout<<P.computeError()<<std::endl;
 
     return 0;
 }
