@@ -1,5 +1,7 @@
 #define the compiler
-CXX=g++ -std=c++20
+CXX=g++ -std=c++20 
+CXXFLAG= -fopenmp 
+#-lmuparser
 
 #define the executablee
 EXEC=main
@@ -11,11 +13,11 @@ HEADERS=problem.hpp
 
 # Link the executable
 $(EXEC) : $(OBJECTS)
-	$(CXX) $^ -o $@
+	$(CXX) $(CXXFLAG) $^ -o $@
 
 # Compile the source files into object files
 %.o: %.cpp $(HEADERS)
-	$(CXX) -c $< -o $@
+	$(CXX) $(CXXFLAG) -c $< -o $@
 
 
 # Clean rule to remove object files and the executable
