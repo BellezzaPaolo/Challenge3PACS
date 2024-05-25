@@ -46,7 +46,7 @@ class problem{
 
 
     public:
-        problem(double x0, double x1,double y0,double y1,int n,std::string F): D(x0,x1,y0,y1), N(n){};//f.SetExpr(F);};
+        problem(double x0, double x1,double y0,double y1,int n,std::string F): D(x0,x1,y0,y1), N(n),Uapproximate(N*N,0.0){};//f.SetExpr(F);};
 
         std::vector<double> SeqSolver(double toll);
 
@@ -56,9 +56,11 @@ class problem{
         
         void printSol(std::ofstream& file) const;
 
-        void problem::split()const;
+        void split(std::vector<double>& Ulocal);
 
-        std::vector<double> ParSolver(double toll);
+        std::vector<double>& ParSolver(double toll,std::vector<double>& Ulocal);
+
+        void EraseSol();
 };
 
 
