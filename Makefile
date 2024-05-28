@@ -1,6 +1,6 @@
 #define the compiler
 CXX=mpicxx -std=c++20 
-CXXFLAG= -fopenmp -DMPI
+CXXFLAG= -fopenmp -DMPI 
 #-lmuparser
 
 #define the executablee

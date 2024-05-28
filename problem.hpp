@@ -11,6 +11,7 @@
 #include <sstream>
 #include <mpi.h>
 #include <omp.h>
+#include <iomanip>
 //#include <muParser.h>
 //#include <muParserDef.h>
 
@@ -56,9 +57,11 @@ class problem{
         
         void printSol(std::ofstream& file) const;
 
-        void split(std::vector<double>& Ulocal);
+        void split(std::vector<double>& Ulocal,int& precCell);
 
-        std::vector<double>& ParSolver(double toll,std::vector<double>& Ulocal);
+        std::vector<double>& ParSolver(double toll,std::vector<double>& Ulocal,int& precCell);
+
+        void merge(std::vector<double>& Ulocal,int& precCell);
 
         void EraseSol();
 };
