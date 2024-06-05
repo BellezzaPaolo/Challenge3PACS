@@ -1,29 +1,29 @@
-#define the compiler
-CXX=mpicxx -std=c++20 
-CXXFLAG= -fopenmp -DMPI 
-#-lmuparser
+CXX=mpicxx -std=c++20
+PACS_ROOT?=../pacs-examples/Examples
+CXXFLAG= -fopenmp -DMPI -I$(PACS_ROOT)/include
 
-#define the executablee
+# Usually could be disable since I'm trouble with installation of muParser
+MUPARSER_LIBDIR=-L$(PACS_ROOT)/lib
+LIBRARY_NAME=muparser
+DYNAMIC_LIBFILE=lib$(LIBRARY_NAME).so
+LDLIBS+=-L. -l$(LIBRARY_NAME) $(MUPARSER_LIBDIR) -lmuparser -L$(PACS_ROOT)/lib -lpacs
+CXXFLAGS+=$(MUPARSER_INCLUDE)
+
 EXEC=main
-
-#define the headers, the objects, the source files to get the executable
 SRC=main.cpp problem.cpp
 OBJECTS=$(SRC:.cpp=.o)
 HEADERS=problem.hpp
 
-# Link the executable
 $(EXEC) : $(OBJECTS)
-	$(CXX) $(CXXFLAG) $^ -o $@
+	$(CXX) $(CXXFLAG) $^ -o $@ $(LDLIBS)
 
-# Compile the source files into object files
 %.o: %.cpp $(HEADERS)
 	$(CXX) $(CXXFLAG) -c $< -o $@
 
+$()
 
-# Clean rule to remove object files and the executable
 clean:
 	rm -f *.o $(EXEC)
 
-# Define rule to optimize the build
 optimize: CXXFLAGS += -O3
 optimize: $(EXEC)

@@ -1,64 +1,56 @@
 #include "problem.hpp"
-#include <iostream>
+#include "chrono"
 
 
 int main(int argc, char *argv[]){
+    MPI_Init(&argc,&argv);
     if(argc!=4){
-        std::cerr<<"Error:\ninput must be 2: right hand side and number of elements"<<std::endl;
+        std::cerr<<"Error:\ninput must be 3: right hand side,number of elements and number of parallel tasks"<<std::endl;
         exit(0);
     }
     if(atoi(argv[2])<0){
         std::cerr<<"Error:\nnumber of elements must be positive"<<std::endl;
         exit(0);
     }
+    if(atoi(argv[3])<=0){
+        std::cerr<<"Error:\nnumber of threads must be a positive integer"<<std::endl;
+        exit(0);
+    }
 
 
     problem P(0.0,1.0,0.0,1.0,atoi(argv[2]),argv[1]);
-    std::ofstream file {"Output.vtk"}; 
-    /*P.SeqSolver(1e-7);
-    std::cout<<"L'errore è "<<P.computeError()<<std::endl;
-    P.EraseSol();*/
-    MPI_Init(&argc,&argv);
+    std::ofstream file {"Output.vtk"};
+    
+    /*const auto start= std::chrono::steady_clock::now();
+    P.SeqSolver(1e-7);
+
+    const auto end= std::chrono::steady_clock::now();
+
+    std::cout<<"L'errore è "<<P.computeError()<<" with time "<<std::chrono::duration<double>(end-start).count()<<" s"<<std::endl;*/
+    //P.EraseSol();
+  
     int rank,size;
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
     MPI_Comm_size(MPI_COMM_WORLD,&size);
     std::vector<double> Ulocal;
     int precCell;
-/*{
-    std::vector<int> send, sendcounts(size,0),display(size,0),recv(20,2);
-    if(rank==0){
-        send.resize(10);
-        for(size_t i=0;i<send.size();++i){
-            send[i]=i;
-        }
-        for(size_t i=1;i<size;++i){
-            sendcounts[i]=10-i;
-            display[i]=i;
-        }
-    }
-    MPI_Scatterv(send.data(),sendcounts.data(),display.data(),MPI_INT,&recv[2],10,MPI_INT,0,MPI_COMM_WORLD);
-    for(size_t i=0;i<size;++i){
-        if(rank==i){
-            std::cout<<"rank "<<rank<<std::endl;
-            for(size_t j=0;j<20;++j){
-                std::cout<<recv[j]<<" ";
-            }
-            std::cout<<"\n"<<std::endl;
-        }
-        MPI_Barrier(MPI_COMM_WORLD);
-    }
-}*/
     
     P.EraseSol();
+
+    const auto start= std::chrono::steady_clock::now();
+
     P.split(Ulocal,precCell);
-    P.ParSolver(1e-7,Ulocal,precCell);
+    P.ParSolver(1e-7,1e4,Ulocal,precCell,atoi(argv[3]));
     P.merge(Ulocal,precCell);
 
-
-        
+    const auto end= std::chrono::steady_clock::now();
+    MPI_Barrier(MPI_COMM_WORLD);
+    
     if(rank==0){
         std::cout<<"L' errore è "<<P.computeError()<<std::endl;
         P.printSol(file);
+        std::cout<<"\nCalcolation took "<<std::chrono::duration<double>(end-start).count()<<" s"<<std::endl;
+        std::cout<<"With "<<size<<" MPI thread, "<<atoi(argv[3]) <<" open MP thread and "<< atoi(argv[2])<<"x"<<atoi(argv[2])<<" mesh"<<std::endl;
     }
 
     MPI_Finalize();

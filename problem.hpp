@@ -12,7 +12,7 @@
 #include <mpi.h>
 #include <omp.h>
 #include <iomanip>
-//#include <muParser.h>
+#include <muParser.h>
 //#include <muParserDef.h>
 
 using funzione=std::function<double(double, double)>;
@@ -40,18 +40,19 @@ class problem{
         //BoundaryCondition Bc;
         int N;
         double h=(D.x1-D.x0)/(N-1);
-        //mu::Parser f;
-        funzione f=[](double x, double y){return 8*std::pow(M_PI,2)*sin(2*M_PI*x)*sin(2*M_PI*y);};
+        mu::Parser f;
+        //funzione f=[](double x, double y){return 8*std::pow(M_PI,2)*sin(2*M_PI*x)*sin(2*M_PI*y);};
         funzione Uex=[](double x,double y){return sin(2*M_PI*x)*sin(2*M_PI*y);};
         std::vector<double> Uapproximate;
 
 
     public:
-        problem(double x0, double x1,double y0,double y1,int n,std::string F): D(x0,x1,y0,y1), N(n),Uapproximate(N*N,0.0){};//f.SetExpr(F);};
+        problem(double x0, double x1,double y0,double y1,int n,std::string F): D(x0,x1,y0,y1), N(n),Uapproximate(N*N,0.0){
+            f.SetExpr(F);
+            f.DefineConst("pi",M_PI);
+            };
 
         std::vector<double> SeqSolver(double toll);
-
-        /*double Eval(size_t i,size_t j,mu::Parser f) const;*/
 
         double computeError() const;
         
@@ -59,7 +60,7 @@ class problem{
 
         void split(std::vector<double>& Ulocal,int& precCell);
 
-        std::vector<double>& ParSolver(double toll,std::vector<double>& Ulocal,int& precCell);
+        std::vector<double>& ParSolver(double toll,int MaxIter,std::vector<double>& Ulocal,int& precCell,int n_threads);
 
         void merge(std::vector<double>& Ulocal,int& precCell);
 
