@@ -1,0 +1,40 @@
+MPI processes: 1 Open MP thread  1:
+	 on a mesh   8 x   8  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh  16 x  16  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh  32 x  32  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh  64 x  64  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh 128 x 128  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh 256 x 256  Iteration count:        	 total_time            ms 	 error:         
+
+
+
+MPI processes: 2 Open MP thread  1:
+	 on a mesh   8 x   8  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh  16 x  16  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh  32 x  32  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh  64 x  64  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh 128 x 128  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh 256 x 256  Iteration count:        	 total_time            ms 	 error:         
+
+
+
+MPI processes: 3 Open MP thread  1:
+	 on a mesh   8 x   8  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh  16 x  16  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh  32 x  32  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh  64 x  64  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh 128 x 128  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh 256 x 256  Iteration count:        	 total_time            ms 	 error:         
+
+
+
+MPI processes: 4 Open MP thread  1:
+	 on a mesh   8 x   8  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh  16 x  16  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh  32 x  32  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh  64 x  64  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh 128 x 128  Iteration count:        	 total_time            ms 	 error:         
+	 on a mesh 256 x 256  Iteration count:        	 total_time            ms 	 error:         
+
+
+
