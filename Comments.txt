@@ -1,0 +1,17 @@
+README: good!
+  I would have directly wrote an example. Also, be aware of the formatting of the markdown. You could have presented the bash string to run the code a bit better.
+  There are also many typos, and the text is sometimes confusing.
+
+Code quality:
+  Please give a more significant name to the problem obj: P is not very explicit.
+
+  I don't like the division between sequential and parallel solver.
+  I don't like the fact that you are passing the number of threads to the constructor. Why? You have so many ways to set them. This is a mistake :)
+  The proper way is to use the environment variable OMP_NUM_THREADS, or to pass it with -x OMP_NUM_THREADS=2 at runtime.
+
+  (useless observation: why is every written avery in the comments? :D)
+  (useless observation: why sometimes some methods are nnnNnn and sometimes NnnNnn? Be consistent)
+
+test:
+  test should not compile the executable, but only use it.
+  Performance are good with only MPI. Nice job!
